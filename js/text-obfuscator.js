@@ -291,6 +291,7 @@ function obfuscateText() {
     }
 
     $("#output").val(output);
+     navigator.clipboard.writeText(value);
 }
 
 function copyText() {

@@ -37,7 +37,7 @@
             <div class="container">
                 <a class="navbar-brand js-scroll-trigger" href="https://github.com/hmlendea/text-obfuscator">
                     <i class="fab fa-fw fa-github"></i>
-                    Text Obfuscator tim
+                    Text Obfuscator
                 </a>
             </div>
         </nav>
@@ -47,7 +47,7 @@
             <div class="container">
                 <div class="row">
                     <div class="col-lg-3 ml-auto">
-                        <p><i class="fas fa-fw fa-indent"></i> tim Input:</p>
+                        <p><i class="fas fa-fw fa-indent"></i> Input:</p>
                     </div>
                     <div class="col-lg-9 mr-auto">
                         <input class="form-control" id="input" type="text" placeholder="Hello world!" />
@@ -73,13 +73,10 @@
                     </div>
                 </div>
                 <br>
-                <div class="row text-center">
+                <div class="row">
                     <div class="col-lg-12 ml-auto mr-auto">
                         <span id="obfuscate" class="btn btn-lg btn-outline-dark" onclick="obfuscateText()">
                             <i class="fas fa-fw fa-cogs"></i> Obfuscate
-                        </span>
-                        <span id="copy" class="btn btn-lg btn-outline-dark" onclick="copyText()">
-                            <i class="fas fa-fw fa-copy"></i> Copy
                         </span>
                     </div>
                 </div>
@@ -88,5 +85,21 @@
 
         <script src="https://startbootstrap.github.io/startbootstrap-freelancer/js/scripts.js"></script>
         <script src="js/text-obfuscator.js"></script>
+        <script>
+// Get the input field
+var inputText = document.getElementById("input");
+
+// Execute a function when the user presses a key on the keyboard
+inputText.addEventListener("keypress", function(event) {
+  // If the user presses the "Enter" key on the keyboard
+  if (event.key === "Enter") {
+    // Cancel the default action, if needed
+    event.preventDefault();
+    // Trigger the button element with a click
+    document.getElementById("obfuscate").click();
+  }
+});         
+        </script>
+
     </body>
 </html>

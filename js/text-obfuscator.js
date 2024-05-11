@@ -286,9 +286,10 @@ function obfuscateText() {
         }
 
         if (!wasObfuscated) {
+            alert(output.concat("+ ", input[i], " not obfuscated")); 
             output += input[i];
         }
-    }
+    } // end for each input character
 
     $("#output").val(output);
      copyToClipboard(output);

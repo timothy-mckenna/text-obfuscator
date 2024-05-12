@@ -1,3 +1,85 @@
+function obfuscateText() {
+    var input = $("#input").val();
+    var output = '';
+
+    for (var [group, candidates] of Object.entries(identicalGroupReplacements)) {
+        var replacement = group;
+
+        if (Math.floor(Math.random() * 10) + 1 <= 6) {
+            var randomCandidateIndex = Math.floor(Math.random() * candidates.length);
+            replacement = candidates[randomCandidateIndex];
+        }
+
+        input = input.replace(group, replacement);
+    }
+
+    if ($("#approximateCharactersCheckbox").is(':checked') && approximateReplacements[character]) {
+        for (var [group, candidates] of Object.entries(approximateGroupReplacements)) {
+            var replacement = group;
+
+            if (Math.floor(Math.random() * 10) + 1 <= 6) {
+                var randomCandidateIndex = Math.floor(Math.random() * candidates.length);
+                replacement = candidates[randomCandidateIndex];
+            }
+
+            input = input.replace(group, replacement);
+        }
+    }
+
+    for (var i = 0; i < input.length; i++) {
+        var character = input[i];
+        var wasObfuscated = false;
+        var candidates = "";
+
+        if (identicalReplacements[character]) {
+            candidates = identicalReplacements[character];
+        }
+
+        if ($("#approximateCharactersCheckbox").is(':checked') && approximateReplacements[character]) {
+            candidates += approximateReplacements[character];
+        }
+
+        if (candidates != null && candidates.length > 0) {
+            if (Math.floor(Math.random() * 10) + 1 <= 6) {
+                var randomCandidateIndex = Math.floor(Math.random() * candidates.length);
+                output += candidates[randomCandidateIndex];
+                wasObfuscated = true;
+            }
+        }
+
+        if (!wasObfuscated) { // sometimes the random selection misses
+            output += input[i]; // input char added as is to output
+        }
+    } // end for each input char
+
+    $("#output").val(output); // update page's output field
+
+    try {
+        navigator.clipboard.writeText(output);
+    }
+    catch (error) {
+        alert(error.message);
+    }
+
+    /* https://developer.mozilla.org/en-US/docs/Web/API/Clipboard_API */
+    // function copyToClipboard() {
+    // copy obfuscated output to clipboard
+    //   var dummy = document.createElement("textarea");
+    // dummy.style.display = 'none'
+    //   document.body.appendChild(dummy);
+    //   dummy.textContent = output; // obfuscated output value
+    //   dummy.select();
+    //   document.execCommand("copy"); << DEPRECATED. 
+
+    //   document.body.removeChild(dummy);
+    // } // end of function copyToClipboard
+
+    if ($("#websearchOutput").is(':checked')) {
+        window.open('https://www.google.ca/search?q=' + output.replaceAll(' ', '+'));
+        // window.open('https://www.google.ca/search?q="' + output + '"');
+    }
+}
+
 var identicalGroupReplacements = {
     "**": "ᕯ",
     "!!": "‼",
@@ -234,77 +316,4 @@ var approximateReplacements = {
     "w": "ꮤ", // The following look different in some fonts: ꮃ
     "x": "ⅹ",
     "y": "γʏ"
-}
-
-function obfuscateText() {
-    var input = $("#input").val();
-    var output = '';
-
-    for (var [group, candidates] of Object.entries(identicalGroupReplacements)) {
-        var replacement = group;
-
-        if (Math.floor(Math.random() * 10) + 1 <= 6) {
-            var randomCandidateIndex = Math.floor(Math.random() * candidates.length);
-            replacement = candidates[randomCandidateIndex];
-        }
-
-        input = input.replace(group, replacement);
-    }
-
-    if ($("#approximateCharactersCheckbox").is(':checked') && approximateReplacements[character]) {
-        for (var [group, candidates] of Object.entries(approximateGroupReplacements)) {
-            var replacement = group;
-
-            if (Math.floor(Math.random() * 10) + 1 <= 6) {
-                var randomCandidateIndex = Math.floor(Math.random() * candidates.length);
-                replacement = candidates[randomCandidateIndex];
-            }
-
-            input = input.replace(group, replacement);
-        }
-    }
-
-    for (var i = 0; i < input.length; i++) {
-        var character = input[i];
-        var wasObfuscated = false;
-        var candidates = "";
-
-        if (identicalReplacements[character]) {
-            candidates = identicalReplacements[character];
-        }
-
-        if ($("#approximateCharactersCheckbox").is(':checked') && approximateReplacements[character]) {
-            candidates += approximateReplacements[character];
-        }
-
-        if (candidates != null && candidates.length > 0) {
-            if (Math.floor(Math.random() * 10) + 1 <= 6) {
-                var randomCandidateIndex = Math.floor(Math.random() * candidates.length);
-                output += candidates[randomCandidateIndex];
-                wasObfuscated = true;
-            }
-        }
-
-        if (!wasObfuscated) { // sometimes the random selection misses
-            output += input[i]; // input char added as is to output
-        }
-    } // end for each input char
-
-    $("#output").val(output); // update page's output field
-
-	// function copyToClipboard() {
-		// copy obfuscated output to clipboard
-	    var dummy = document.createElement("textarea");
-	    // dummy.style.display = 'none'
-	    document.body.appendChild(dummy);
-	    dummy.textContent = output; // obfuscated output value
-	    dummy.select();
-	    document.execCommand("copy");
-	    document.body.removeChild(dummy);
-    // } // end of function copyToClipboard
-    
-   	if ($("#websearchOutput").is(':checked')) {
-//		window.open('https://www.google.ca/search?q=' + output.replaceAll(' ','+') );
-		window.open('https://www.google.ca/search?q="' + output + '"' );
-	}
 }

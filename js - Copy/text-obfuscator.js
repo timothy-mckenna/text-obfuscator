@@ -285,26 +285,12 @@ function obfuscateText() {
             }
         }
 
-        if (!wasObfuscated) { // sometimes the random selection misses
-            output += input[i]; // input char added as is to output
+        if (!wasObfuscated) {
+            alert(output.concat("+ ", input[i], " not obfuscated")); 
+            output += input[i];
         }
-    } // end for each input char
+    } // end for each input character
 
-    $("#output").val(output); // update page's output field
-
-	// function copyToClipboard() {
-		// copy obfuscated output to clipboard
-	    var dummy = document.createElement("textarea");
-	    // dummy.style.display = 'none'
-	    document.body.appendChild(dummy);
-	    dummy.textContent = output; // obfuscated output value
-	    dummy.select();
-	    document.execCommand("copy");
-	    document.body.removeChild(dummy);
-    // } // end of function copyToClipboard
-    
-   	if ($("#websearchOutput").is(':checked')) {
-//		window.open('https://www.google.ca/search?q=' + output.replaceAll(' ','+') );
-		window.open('https://www.google.ca/search?q="' + output + '"' );
-	}
+    $("#output").val(output);
+     copyToClipboard(output);
 }

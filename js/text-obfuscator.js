@@ -1,3 +1,14 @@
+/* 
+To Do
+Issue: there are times when obfuscateText() does not substitute enough characters and a Google search is partially successful. Repeated tries may produce minimally different results.
+
+Problem may be in the limited seeding of Math.random() ???
+See https://stackoverflow.com/questions/521295/seeding-the-random-number-generator-in-javascript
+
+add counter for number of char if (!wasObfuscated)
+afterward, compute percentage of char not obfuscated and display.
+
+*/
 function obfuscateText() {
     var input = $("#input").val();
     var output = '';
